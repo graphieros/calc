@@ -19,7 +19,7 @@ export interface Calc {
 
 export type ClickEvent = {
   preventDefault: () => void;
-  target: { innerHTML: string; dataset: any };
+  target: { innerHTML: string; dataset: ButtonValue };
 };
 
 export interface OperandProps {
