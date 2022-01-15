@@ -1,0 +1,97 @@
+button {
+  background-color: var(--white-transparent);
+  border-bottom: transparent;
+  border-left: transparent;
+  border-radius: 10px;
+  border-right: transparent;
+  border-top: 1px solid white;
+  box-shadow: var(--box-shadow);
+  cursor: pointer;
+  font-size: 2rem;
+  margin: 5px;
+  outline: none;
+  padding: 10px;
+  transition: all 0.15s ease-in-out;
+  /* text-shadow: 0px 1px white; */
+}
+
+button:hover,
+button:focus {
+  background-color: rgba(255, 255, 255, 0.9);
+}
+
+button:hover {
+  transform: translate3d(1px, 1px, 1px);
+}
+
+@keyframes wobble {
+  0% {
+    transform: rotate(-3deg);
+  }
+  50% {
+    transform: rotate(2deg);
+  }
+  100% {
+    transform: rotate(-1deg);
+  }
+}
+
+.top {
+  background-color: var(--top-button-bg);
+  color: var(--top-button-color);
+}
+
+.top:hover,
+.top:focus {
+  background-color: var(--top-button-bg-focus);
+}
+
+.button-C,
+.button-DEL {
+  background-color: var(--del-button-bg);
+  color: var(--del-button-color);
+}
+
+.button-C {
+  grid-column: span 2;
+}
+
+.button-C:hover,
+.button-C:focus,
+.button-DEL:hover,
+.button-DEL:focus {
+  background-color: var(--del-button-focus);
+}
+
+.rounded {
+  background-color: var(--digit-button-bg);
+  border-radius: 30px;
+  color: var(--digit-button-color);
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.rounded:hover,
+.rounded:focus {
+  background-color: var(--digit-button-focus);
+}
+
+.L {
+  background-color: var(--operand-button-bg);
+  color: var(--operand-button-color);
+}
+
+.L:hover,
+.L:focus {
+  background-color: var(--operand-button-focus);
+}
+
+.bottom {
+  background-color: var(--bottom-button-bg);
+  color: var(--bottom-button-color);
+}
+
+.bottom:hover,
+.bottom:focus {
+  background-color: var(--bottom-button-focus);
+}
