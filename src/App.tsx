@@ -120,12 +120,6 @@ function App() {
             res.push(el.value);
           }
           break;
-        // case "dot":
-        //   console.log(stack);
-        //   if (!res.toString().includes(".")) {
-        //     res.push(el.value);
-        //   }
-        // break;
 
         default:
           break;
@@ -206,6 +200,43 @@ function App() {
         if (!lastStackRecord.toString().includes(".")) {
           lastStackRecord.value = lastStackRecord.value + ".";
         }
+        // edge case to fix: user clicks twice on "."
+        break;
+
+      case "percent":
+        const percentRes = ((calc.result as number) /= Math.pow(100, 1));
+        lastStackRecord.value = percentRes;
+        setCalc({
+          ...calc,
+          result: percentRes,
+        });
+        break;
+
+      case "squareRoot":
+        const squareRoot = Math.sqrt(calc.result as number);
+        lastStackRecord.value = squareRoot;
+        setCalc({
+          ...calc,
+          result: squareRoot,
+        });
+        break;
+
+      case "square":
+        const square = Math.pow(calc.result as number, 2);
+        lastStackRecord.value = square;
+        setCalc({
+          ...calc,
+          result: square,
+        });
+        break;
+
+      case "inverse":
+        const inverse = 1 / (calc.result as number);
+        lastStackRecord.value = inverse;
+        setCalc({
+          ...calc,
+          result: inverse,
+        });
         break;
 
       case "operand":

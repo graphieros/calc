@@ -2,10 +2,10 @@ import { ButtonValue } from "../types/types";
 
 export const btnValues = [
   [
-    { type: "", value: "%", name: "percent", shape: "top" },
-    { type: "", value: "√", name: "sqrt", shape: "top" },
-    { type: "", value: "x²", name: "sqr", shape: "top" },
-    { type: "", value: "1/x", name: "prop", shape: "top" },
+    { type: "percent", value: "%", name: "percent", shape: "top" },
+    { type: "squareRoot", value: "√", name: "sqrt", shape: "top" },
+    { type: "square", value: "x²", name: "sqr", shape: "top" },
+    { type: "inverse", value: "1/x", name: "prop", shape: "top" },
     { type: "clear", value: "C", name: "C", shape: "" },
     { type: "delete", value: "DEL", name: "DEL", shape: "" },
     { type: "operand", value: "÷", name: "divide", shape: "L" },
