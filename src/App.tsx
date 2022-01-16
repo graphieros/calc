@@ -197,7 +197,7 @@ function App() {
         break;
 
       case "dot":
-        if (!lastStackRecord.toString().includes(".")) {
+        if (!calc.result.toString().includes(".")) {
           lastStackRecord.value = lastStackRecord.value + ".";
         }
         // edge case to fix: user clicks twice on "."
