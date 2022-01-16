@@ -26,26 +26,6 @@ function App() {
     stack = [];
   };
 
-  const reverseSign = (): void => {
-    if (!stack.length) {
-      return;
-    }
-    feedStack({
-      isPositive: false,
-      value: "x",
-      type: "operand",
-      isVisible: false,
-    });
-    feedStack({
-      isPositive: false,
-      value: -1,
-      type: "number",
-      isVisible: false,
-    });
-    computeFromStack();
-    stack = stack.slice(-3, -2); // removing 'x-1' previously fed to the stack
-  };
-
   const computeFromStack = (): void => {
     let result = 0;
     let previousOperand = "+";
@@ -162,7 +142,12 @@ function App() {
 
     switch (type) {
       case "reverse":
-        reverseSign();
+        const reversed = -1 * (lastStackRecord.value as number);
+        lastStackRecord.value = reversed;
+        setCalc({
+          ...calc,
+          result: reversed,
+        });
         break;
       case "clear":
         reset();
@@ -200,7 +185,6 @@ function App() {
         if (!calc.result.toString().includes(".")) {
           lastStackRecord.value = lastStackRecord.value + ".";
         }
-        // edge case to fix: user clicks twice on "."
         break;
 
       case "percent":
