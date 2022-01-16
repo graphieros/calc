@@ -7,20 +7,25 @@
   display: flex;
   flex-direction: column;
   font-family: digits;
-  font-size: 3rem;
+  font-size: 2rem;
   grid-column: 1 / -1;
   justify-content: space-around;
   margin: 5px;
   padding: 0.75rem;
   word-break: break-all;
   word-wrap: break-word;
+  height: 150px;
 }
 
 .current-operand {
   color: var(--current-operand);
+  text-align: right;
+  max-width: 270px;
 }
 
 .previous-operand {
   color: var(--previous-operand);
-  font-size: 2rem;
+  font-size: 1rem;
+  text-align: right;
+  max-width: 270px;
 }

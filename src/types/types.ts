@@ -10,9 +10,6 @@ export interface ButtonValue {
 }
 
 export interface Calc {
-  sign: string;
-  num: number | string;
-  previousNum: number | string;
   result: number | string;
   memory: string[];
 }
