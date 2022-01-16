@@ -4,6 +4,8 @@ import { useState } from "react";
 import Screen from "./components/Screen";
 import { ButtonValue, Calc, ClickEvent, Stack, Num } from "./types/types";
 import { btnValues } from "./constants/index";
+import Cta from "./components/Cta";
+import Brand from "./components/Brand";
 
 let stack: Stack = [];
 
@@ -245,6 +247,7 @@ function App() {
   return (
     <section className="main-wrapper">
       <div className="calculator-grid">
+        <Brand />
         <Screen
           previousOperand={renderHistory() || "..."}
           currentOperand={renderResult() || 0}
@@ -261,6 +264,7 @@ function App() {
           );
         })}
       </div>
+      <Cta />
     </section>
   );
 }
