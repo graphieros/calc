@@ -27,6 +27,13 @@ h1.cta-title > span {
   max-width: 800px;
 }
 
+.link-out {
+  all: none;
+  width: 100%;
+  max-width: 205px;
+  height: 10px;
+}
+
 .cta-button {
   background: rgb(70, 133, 170);
   color: white;
@@ -52,7 +59,7 @@ h1.cta-title > span {
 }
 
 @media (max-width: 600px) {
-  .cta-button {
-    margin-bottom: 50px;
+  .cta-wrapper {
+    margin-bottom: 100px;
   }
 }
