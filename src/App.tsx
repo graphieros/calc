@@ -13,46 +13,20 @@ const feedStack = (num: Num) => {
 
 function App() {
   let [calc, setCalc] = useState<Calc>({
-    sign: "",
-    num: 0,
-    previousNum: 0,
     result: 0,
     memory: [],
   });
 
-  const reset = () => {
+  const reset = (): void => {
     setCalc({
       ...calc,
-      sign: "",
-      num: 0,
-      previousNum: 0,
       result: 0,
       memory: [],
     });
     stack = [];
   };
 
-  const reverseSign = (): void => {
-    if (!stack.length) {
-      return;
-    }
-    feedStack({
-      isPositive: false,
-      value: "X",
-      type: "operand",
-      isVisible: false,
-    });
-    feedStack({
-      isPositive: false,
-      value: -1,
-      type: "number",
-      isVisible: false,
-    });
-    computeFromStack();
-    stack = stack.slice(-3, -2);
-  };
-
-  const computeFromStack = () => {
+  const computeFromStack = (): void => {
     let result = 0;
     let previousOperand = "+";
 
@@ -60,13 +34,14 @@ function App() {
       switch (previousOp) {
         case "÷":
           return result / Number(val);
-        case "X":
+        case "x":
           return result * Number(val);
         case "-":
           return result - Number(val);
         case "+":
-        default:
           return result + Number(val);
+        default:
+          return result;
       }
     };
 
@@ -87,6 +62,26 @@ function App() {
     setCalc({
       ...calc,
       result: result,
+    });
+  };
+
+  const deleteDigit = () => {
+    if (stack.length) {
+      const lastStackElement = stack.pop() as Num;
+      lastStackElement.value = Number(
+        lastStackElement.value.toString().slice(0, -1)
+      );
+      stack.push(lastStackElement);
+    }
+
+    if (!calc.result) {
+      stack = [];
+    }
+
+    const res = calc.result.toString().slice(0, -1);
+    setCalc({
+      ...calc,
+      result: res,
     });
   };
 
@@ -113,6 +108,14 @@ function App() {
     return res.join("");
   };
 
+  const renderResult = () => {
+    if (calc.result.toString().length > 9) {
+      return Number(calc.result).toExponential();
+    } else {
+      return calc.result;
+    }
+  };
+
   const computeHandler = (e: ClickEvent): void => {
     e.preventDefault();
     let value = e.target?.dataset.value || "";
@@ -125,7 +128,7 @@ function App() {
       isVisible: false,
     };
 
-    const isAnOperand = ["+", "-", "÷", "X"].includes(
+    const isAnOperand = ["+", "-", "÷", "x"].includes(
       lastStackRecord.value.toString()
     );
     if (isAnOperand) {
@@ -139,17 +142,29 @@ function App() {
 
     switch (type) {
       case "reverse":
-        reverseSign();
+        const reversed = -1 * (lastStackRecord.value as number);
+        lastStackRecord.value = reversed;
+        setCalc({
+          ...calc,
+          result: reversed,
+        });
         break;
       case "clear":
         reset();
+        break;
+      case "delete":
+        deleteDigit();
         break;
       case "equals":
         computeFromStack();
         break;
 
       case "number":
-        const newVal = Number(lastStackRecord.value + value.toString());
+        let newVal = Number(lastStackRecord.value + value.toString());
+
+        if (newVal.toString().length > 16) {
+          return;
+        }
 
         if (stack.length) {
           if (!isAnOperand) {
@@ -164,6 +179,48 @@ function App() {
         });
         computeFromStack();
 
+        break;
+
+      case "dot":
+        if (!calc.result.toString().includes(".")) {
+          lastStackRecord.value = lastStackRecord.value + ".";
+        }
+        break;
+
+      case "percent":
+        const percentRes = ((calc.result as number) /= Math.pow(100, 1));
+        lastStackRecord.value = percentRes;
+        setCalc({
+          ...calc,
+          result: percentRes,
+        });
+        break;
+
+      case "squareRoot":
+        const squareRoot = Math.sqrt(calc.result as number);
+        lastStackRecord.value = squareRoot;
+        setCalc({
+          ...calc,
+          result: squareRoot,
+        });
+        break;
+
+      case "square":
+        const square = Math.pow(calc.result as number, 2);
+        lastStackRecord.value = square;
+        setCalc({
+          ...calc,
+          result: square,
+        });
+        break;
+
+      case "inverse":
+        const inverse = 1 / (calc.result as number);
+        lastStackRecord.value = inverse;
+        setCalc({
+          ...calc,
+          result: inverse,
+        });
         break;
 
       case "operand":
@@ -189,8 +246,8 @@ function App() {
     <section className="main-wrapper">
       <div className="calculator-grid">
         <Screen
-          previousOperand={renderHistory()}
-          currentOperand={calc.result}
+          previousOperand={renderHistory() || "..."}
+          currentOperand={renderResult() || 0}
         />
         {btnValues.flat().map((btn: ButtonValue, i: number) => {
           return (
