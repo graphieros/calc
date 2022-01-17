@@ -107,7 +107,7 @@ function App() {
 
     setCalc({
       ...calc,
-      result: result,
+      result: Math.round(result * 1_000) / 1_000,
     });
   };
 
