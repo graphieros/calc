@@ -32,3 +32,15 @@ export interface Num {
 }
 
 export type Stack = Num[];
+
+export interface CalcHistory {
+  date: string | Date;
+  calc: string;
+  result: number | string;
+}
+
+export interface HistoryProps {
+  history: CalcHistory[];
+  action: () => void;
+  deleteHistory: () => void;
+}
