@@ -190,10 +190,7 @@ function App() {
       case "reverse":
         const reversed = -1 * (lastStackRecord.value as number);
         lastStackRecord.value = reversed;
-        setCalc({
-          ...calc,
-          result: reversed,
-        });
+        computeFromStack();
         break;
       case "clear":
         reset();
