@@ -2,10 +2,18 @@ import "./App.css";
 import Button from "./components/Button";
 import { useState } from "react";
 import Screen from "./components/Screen";
-import { ButtonValue, Calc, ClickEvent, Stack, Num } from "./types/types";
+import {
+  ButtonValue,
+  Calc,
+  ClickEvent,
+  Stack,
+  Num,
+  CalcHistory,
+} from "./types/types";
 import { btnValues } from "./constants/index";
 import Cta from "./components/Cta";
 import Brand from "./components/Brand";
+import PostIt from "./components/PostIt";
 
 let stack: Stack = [];
 
@@ -14,6 +22,42 @@ const feedStack = (num: Num) => {
 };
 
 function App() {
+  let [postIt, setPostIt] = useState({
+    visible: false,
+    history: [] as CalcHistory[],
+  });
+
+  const deleteHistory = () => {
+    setPostIt({
+      ...postIt,
+      history: [],
+      visible: false,
+    });
+  };
+
+  const postItVisibilityHandler = (): any => {
+    if (calc.result) {
+      setPostIt({
+        ...postIt,
+        visible: !postIt.visible,
+        history: [
+          ...postIt.history,
+          {
+            date: new Date().toLocaleString(),
+            calc: renderHistory(),
+            result: renderResult(),
+          },
+        ] as CalcHistory[],
+      });
+    } else {
+      setPostIt({
+        ...postIt,
+        visible: !postIt.visible,
+      });
+    }
+    reset();
+  };
+
   let [calc, setCalc] = useState<Calc>({
     result: 0,
     memory: [],
@@ -159,6 +203,7 @@ function App() {
         break;
       case "equals":
         computeFromStack();
+        postItVisibilityHandler();
         break;
 
       case "number":
@@ -264,6 +309,16 @@ function App() {
           );
         })}
       </div>
+      {postIt.visible ? (
+        <PostIt
+          history={postIt.history as CalcHistory[]}
+          action={postItVisibilityHandler}
+          deleteHistory={deleteHistory}
+        />
+      ) : (
+        <></>
+      )}
+
       <Cta />
     </section>
   );
