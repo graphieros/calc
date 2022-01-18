@@ -155,7 +155,7 @@ function App() {
   };
 
   const renderResult = () => {
-    if (calc.result.toString().length > 9) {
+    if (calc.result.toString().length > 12) {
       return Number(calc.result).toExponential();
     } else {
       return calc.result;
@@ -186,14 +186,14 @@ function App() {
       };
     }
 
+    const isZeroAfterZero =
+      stack.length === 1 && value === "0" && stack[0].value === "0";
+
     switch (type) {
       case "reverse":
         const reversed = -1 * (lastStackRecord.value as number);
         lastStackRecord.value = reversed;
-        setCalc({
-          ...calc,
-          result: reversed,
-        });
+        computeFromStack();
         break;
       case "clear":
         reset();
@@ -207,7 +207,10 @@ function App() {
         break;
 
       case "number":
-        let newVal = Number(lastStackRecord.value + value.toString());
+        if (isZeroAfterZero) {
+          return;
+        }
+        let newVal = lastStackRecord.value + value.toString();
 
         if (newVal.toString().length > 16) {
           return;
@@ -219,7 +222,7 @@ function App() {
           }
         }
         feedStack({
-          isPositive: newVal >= 0,
+          isPositive: Number(newVal) >= 0,
           value: newVal,
           type: type,
           isVisible: true,
@@ -229,9 +232,11 @@ function App() {
         break;
 
       case "dot":
-        if (!calc.result.toString().includes(".")) {
-          lastStackRecord.value = lastStackRecord.value + ".";
-        }
+        lastStackRecord.value = (lastStackRecord.value + ".").replaceAll(
+          "..",
+          "."
+        );
+
         break;
 
       case "percent":
