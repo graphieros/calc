@@ -186,6 +186,9 @@ function App() {
       };
     }
 
+    const isZeroAfterZero =
+      stack.length === 1 && value === "0" && stack[0].value === "0";
+
     switch (type) {
       case "reverse":
         const reversed = -1 * (lastStackRecord.value as number);
@@ -204,6 +207,9 @@ function App() {
         break;
 
       case "number":
+        if (isZeroAfterZero) {
+          return;
+        }
         let newVal = lastStackRecord.value + value.toString();
 
         if (newVal.toString().length > 16) {
