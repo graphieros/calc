@@ -205,7 +205,6 @@ function App() {
 
       case "number":
         let newVal = lastStackRecord.value + value.toString();
-        console.log(newVal);
 
         if (newVal.toString().length > 16) {
           return;
