@@ -103,6 +103,25 @@ body {
   /* grid-template-columns: repeat(2, 1fr); */
 }
 
+.theme-selector-wrapper {
+  position: absolute;
+  bottom: 0;
+  left: 35px;
+}
+
+.theme-selector {
+  margin: 3px;
+  padding: 3px;
+  margin-left: 10px;
+  font-family: digits;
+  color: grey;
+}
+
+label {
+  font-family: digits;
+  color: grey;
+}
+
 @media (max-width: 600px) {
   .main-wrapper {
     flex-direction: column;

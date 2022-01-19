@@ -37,34 +37,53 @@
   }
 }
 
-.top {
+.top.default {
   background-color: var(--top-button-bg);
   color: var(--top-button-color);
 }
 
-.top:hover,
-.top:focus {
+.top.blue {
+  background-color: rgb(22, 52, 70);
+  color: rgb(167, 203, 224);
+}
+
+.top.default:hover,
+.top.default:focus {
   background-color: var(--top-button-bg-focus);
 }
 
-.button-C,
-.button-DEL {
+.button-C.default,
+.button-DEL.default {
   background-color: var(--del-button-bg);
   color: var(--del-button-color);
 }
 
-.button-C {
+.button-C.blue,
+.button-DEL.blue {
+  background-color: rgb(204, 219, 228);
+  color: rgb(34, 77, 102);
+}
+
+.button-C.default,
+.button-C.blue {
   grid-column: span 2;
 }
 
-.button-C:hover,
-.button-C:focus,
-.button-DEL:hover,
-.button-DEL:focus {
+.button-C.default:hover,
+.button-C.default:focus,
+.button-DEL.default:hover,
+.button-DEL.default:focus {
   background-color: var(--del-button-focus);
 }
 
-.rounded {
+.button-C.blue:hover,
+.button-C.blue:focus,
+.button-DEL.blue:hover,
+.button-DEL.blue:focus {
+  background-color: rgb(220, 229, 235);
+}
+
+.rounded.default {
   background-color: var(--digit-button-bg);
   border-radius: 30px;
   color: var(--digit-button-color);
@@ -72,27 +91,49 @@
   font-weight: bold;
 }
 
-.rounded:hover,
-.rounded:focus {
+.rounded.default:hover,
+.rounded.default:focus {
   background-color: var(--digit-button-focus);
 }
 
-.L {
+.rounded.blue {
+  background-color: rgb(70, 133, 170);
+  border-radius: 30px;
+  color: rgb(207, 226, 236);
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.rounded.blue:hover,
+.rounded.blue:focus {
+  background-color: rgb(54, 109, 141);
+}
+
+.L.default {
   background-color: var(--operand-button-bg);
   color: var(--operand-button-color);
 }
 
-.L:hover,
-.L:focus {
+.L.blue {
+  color: rgb(35, 76, 100);
+}
+
+.L.default:hover,
+.L.default:focus {
   background-color: var(--operand-button-focus);
 }
 
-.bottom {
+.bottom.default {
   background-color: var(--bottom-button-bg);
   color: var(--bottom-button-color);
 }
 
-.bottom:hover,
-.bottom:focus {
+.bottom.blue {
+  background-color: rgb(204, 219, 228);
+  color: rgb(34, 77, 102);
+}
+
+.bottom.default:hover,
+.bottom.default:focus {
   background-color: var(--bottom-button-focus);
 }

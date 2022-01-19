@@ -27,6 +27,26 @@ function App() {
     history: [] as CalcHistory[],
   });
 
+  let [colorTheme, setColorTheme] = useState({
+    theme: "default",
+  });
+
+  const getColorTheme = (): string => {
+    switch (colorTheme.theme) {
+      case "blue":
+        return "blue";
+
+      default:
+        return "default";
+    }
+  };
+
+  const changeTheme = (e: any) => {
+    setColorTheme({
+      theme: e,
+    });
+  };
+
   const deleteHistory = () => {
     setPostIt({
       ...postIt,
@@ -35,7 +55,7 @@ function App() {
     });
   };
 
-  const postItVisibilityHandler = (): any => {
+  const postItVisibilityHandler = (): void => {
     if (calc.result) {
       setPostIt({
         ...postIt,
@@ -308,12 +328,24 @@ function App() {
               key={i}
               value={btn.value}
               type={btn.type}
-              className={`button-${btn.name} ${btn.shape}`}
+              className={`button-${btn.name} ${btn.shape} ${getColorTheme()}`}
               action={computeHandler}
             />
           );
         })}
+        <div className="theme-selector-wrapper">
+          <label htmlFor="theme-selector">Theme:</label>
+          <select
+            name="theme-selector"
+            className="theme-selector"
+            onChange={(e) => changeTheme(e.target.value)}
+          >
+            <option>default</option>
+            <option>blue</option>
+          </select>
+        </div>
       </div>
+
       {postIt.visible ? (
         <PostIt
           history={postIt.history as CalcHistory[]}
