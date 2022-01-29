@@ -15,10 +15,20 @@ import Cta from "./components/Cta";
 import Brand from "./components/Brand";
 import PostIt from "./components/PostIt";
 
-let stack: Stack = [];
+export let stack: Stack = [];
 
-const feedStack = (num: Num) => {
+export const feedStack = (num: Num) => {
   stack.push(num);
+};
+
+export const getColorTheme = (theme: string): string => {
+  switch (theme) {
+    case "blue":
+      return "blue";
+
+    default:
+      return "default";
+  }
 };
 
 function App() {
@@ -30,16 +40,6 @@ function App() {
   let [colorTheme, setColorTheme] = useState({
     theme: "default",
   });
-
-  const getColorTheme = (): string => {
-    switch (colorTheme.theme) {
-      case "blue":
-        return "blue";
-
-      default:
-        return "default";
-    }
-  };
 
   const changeTheme = (e: any) => {
     setColorTheme({
@@ -328,7 +328,9 @@ function App() {
               key={i}
               value={btn.value}
               type={btn.type}
-              className={`button-${btn.name} ${btn.shape} ${getColorTheme()}`}
+              className={`button-${btn.name} ${btn.shape} ${getColorTheme(
+                colorTheme.theme
+              )}`}
               action={computeHandler}
             />
           );
