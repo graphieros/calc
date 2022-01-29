@@ -7,29 +7,22 @@ import {
   Calc,
   ClickEvent,
   Stack,
-  StackElement,
   CalcHistory,
 } from "./types/types";
 import { btnValues } from "./constants/index";
 import Cta from "./components/Cta";
 import Brand from "./components/Brand";
 import PostIt from "./components/PostIt";
+import {
+  feedStack,
+  getColorTheme,
+  computeFromStack,
+  deleteDigit,
+  renderHistory,
+  calculateResultFromOperand,
+} from "./functions";
 
 export let stack: Stack = [];
-
-export const feedStack = (stackElement: StackElement) => {
-  stack.push(stackElement);
-};
-
-export const getColorTheme = (theme: string): string => {
-  switch (theme) {
-    case "blue":
-      return "blue";
-
-    default:
-      return "default";
-  }
-};
 
 function App() {
   let [postIt, setPostIt] = useState({
@@ -64,7 +57,7 @@ function App() {
           ...postIt.history,
           {
             date: new Date().toLocaleString(),
-            calc: renderHistory(),
+            calc: renderHistory(stack),
             result: renderResult(),
           },
         ] as CalcHistory[],
@@ -92,38 +85,8 @@ function App() {
     stack = [];
   };
 
-  const computeFromStack = (): void => {
-    let result = 0;
-    let previousOperand = "+";
-
-    const convertToResult = (previousOp: string, val: number | string) => {
-      switch (previousOp) {
-        case "÷":
-          return result / Number(val);
-        case "x":
-          return result * Number(val);
-        case "-":
-          return result - Number(val);
-        case "+":
-          return result + Number(val);
-        default:
-          return result;
-      }
-    };
-
-    stack.forEach((el) => {
-      switch (el.type) {
-        case "number":
-          result = convertToResult(previousOperand, Number(el.value));
-          break;
-        case "operand":
-          previousOperand = el.value.toString();
-          break;
-
-        default:
-          break;
-      }
-    });
+  const compute = (): void => {
+    const result = computeFromStack(stack);
 
     setCalc({
       ...calc,
@@ -131,47 +94,12 @@ function App() {
     });
   };
 
-  const deleteDigit = () => {
-    if (stack.length) {
-      const lastStackElement = stack.pop() as StackElement;
-      lastStackElement.value = Number(
-        lastStackElement.value.toString().slice(0, -1)
-      );
-      stack.push(lastStackElement);
-    }
-
-    if (!calc.result) {
-      stack = [];
-    }
-
-    const res = calc.result.toString().slice(0, -1);
+  const deleteInput = (): void => {
+    const res = deleteDigit(calc, stack);
     setCalc({
       ...calc,
       result: res,
     });
-  };
-
-  const renderHistory = (): string => {
-    let res: (string | number)[] = [];
-
-    stack.forEach((stackElement: StackElement) => {
-      switch (stackElement.type) {
-        case "number":
-          if (stackElement.isVisible) {
-            res.push(stackElement.value);
-          }
-          break;
-        case "operand":
-          if (stackElement.isVisible) {
-            res.push(stackElement.value);
-          }
-          break;
-
-        default:
-          break;
-      }
-    });
-    return res.join("");
   };
 
   const renderResult = () => {
@@ -207,26 +135,37 @@ function App() {
       };
     }
 
-    const isZeroAfterZero =
-      stack.length === 1 && value === "0" && stack[0].value === "0";
-
     switch (type) {
       case "reverse":
         const reversed = -1 * (lastStackRecord.value as number);
         lastStackRecord.value = reversed;
-        computeFromStack();
-        break;
+        compute();
+        return;
       case "clear":
         reset();
-        break;
+        return;
       case "delete":
-        deleteDigit();
-        break;
+        deleteInput();
+        return;
       case "equals":
-        computeFromStack();
+        compute();
         postItVisibilityHandler();
+        return;
+      default:
         break;
+    }
 
+    const isZeroAfterZero =
+      stack.length === 1 && value === "0" && stack[0].value === "0";
+
+    switch (type) {
+      case "dot":
+        lastStackRecord.value = (lastStackRecord.value + ".").replaceAll(
+          "..",
+          "."
+        );
+
+        return;
       case "number":
         if (isZeroAfterZero) {
           return;
@@ -242,77 +181,39 @@ function App() {
             stack.pop();
           }
         }
-        feedStack({
+        feedStack(stack, {
           isPositive: Number(newVal) >= 0,
           value: newVal,
           type: type,
           isVisible: true,
         });
-        computeFromStack();
+        compute();
 
-        break;
-
-      case "dot":
-        lastStackRecord.value = (lastStackRecord.value + ".").replaceAll(
-          "..",
-          "."
-        );
-
-        break;
-
-      case "percent":
-        const percentRes = ((calc.result as number) /= Math.pow(100, 1));
-        lastStackRecord.value = percentRes;
-        setCalc({
-          ...calc,
-          result: percentRes,
-        });
-        break;
-
-      case "squareRoot":
-        const squareRoot = Math.sqrt(calc.result as number);
-        lastStackRecord.value = squareRoot;
-        setCalc({
-          ...calc,
-          result: squareRoot,
-        });
-        break;
-
-      case "square":
-        const square = Math.pow(calc.result as number, 2);
-        lastStackRecord.value = square;
-        setCalc({
-          ...calc,
-          result: square,
-        });
-        break;
-
-      case "inverse":
-        const inverse = 1 / (calc.result as number);
-        lastStackRecord.value = inverse;
-        setCalc({
-          ...calc,
-          result: inverse,
-        });
-        break;
+        return;
 
       case "operand":
         if (isAnOperand) {
           stack.pop();
         }
 
-        feedStack({
+        feedStack(stack, {
           isPositive: true,
           value: value,
           type: type,
           isVisible: true,
         });
-
-        break;
-
+        return;
       default:
         break;
     }
+
+    const result = calculateResultFromOperand(type, calc);
+
+    setCalc({
+      ...calc,
+      result,
+    });
+    lastStackRecord.value = result;
   };
 
   return (
@@ -320,7 +221,7 @@ function App() {
       <div className="calculator-grid">
         <Brand />
         <Screen
-          previousOperand={renderHistory() || "..."}
+          previousOperand={renderHistory(stack) || "..."}
           currentOperand={renderResult() || 0}
         />
         {btnValues.flat().map((btn: ButtonValue, i: number) => {

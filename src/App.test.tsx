@@ -1,16 +1,17 @@
-import { text } from "node:stream/consumers";
-import { stack, feedStack, getColorTheme } from "./App";
-import { Num } from "./types/types";
+import { stack } from "./App";
+import { StackElement } from "./types/types";
+import { feedStack, getColorTheme } from "./functions/index";
 
 test("feedStack pushes an element to the stack", () => {
-  let element: Num = {
+  let stackElement: StackElement = {
     isPositive: true,
     value: 1,
     type: "digit",
     isVisible: true,
   };
-  feedStack(element);
+  feedStack(stack, stackElement);
   expect(stack.length).toBe(1);
+  expect(stack[0]).toStrictEqual({ ...stackElement });
 });
 
 test("getColorTheme should return blue if param is 'blue'", () => {
