@@ -62,6 +62,25 @@ body {
   width: 100%;
 }
 
+.calculator-grid::before {
+  content: "";
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  height: calc(100% - 10px);
+  width: calc(100% - 10px);
+  border-radius: 7px;
+  background: radial-gradient(
+    at top right,
+    white,
+    transparent,
+    transparent,
+    transparent,
+    white
+  );
+  box-shadow: -1px -1px 5px rgb(85, 85, 85);
+}
+
 .span-two {
   grid-column: span 2;
 }
@@ -105,8 +124,8 @@ body {
 
 .theme-selector-wrapper {
   position: absolute;
-  bottom: 0;
-  left: 35px;
+  bottom: 5px;
+  left: 37px;
 }
 
 .theme-selector {
@@ -115,6 +134,10 @@ body {
   margin-left: 10px;
   font-family: digits;
   color: grey;
+}
+
+select {
+  border-radius: 10px;
 }
 
 label {

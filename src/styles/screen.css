@@ -13,8 +13,26 @@
   justify-content: space-around;
   margin: 5px;
   padding: 0.75rem;
+  position: relative;
   word-break: break-all;
   word-wrap: break-word;
+}
+
+.screen::before {
+  content: "";
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  height: calc(100% - 10px);
+  width: calc(100% - 10px);
+  border-radius: 7px;
+  background: radial-gradient(
+    at top left,
+    white,
+    transparent,
+    transparent,
+    rgba(152, 189, 184, 0.377)
+  );
 }
 
 .current-operand {
