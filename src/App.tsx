@@ -7,7 +7,7 @@ import {
   Calc,
   ClickEvent,
   Stack,
-  Num,
+  StackElement,
   CalcHistory,
 } from "./types/types";
 import { btnValues } from "./constants/index";
@@ -17,8 +17,8 @@ import PostIt from "./components/PostIt";
 
 export let stack: Stack = [];
 
-export const feedStack = (num: Num) => {
-  stack.push(num);
+export const feedStack = (stackElement: StackElement) => {
+  stack.push(stackElement);
 };
 
 export const getColorTheme = (theme: string): string => {
@@ -41,7 +41,7 @@ function App() {
     theme: "default",
   });
 
-  const changeTheme = (e: any) => {
+  const changeTheme = (e: string) => {
     setColorTheme({
       theme: e,
     });
@@ -133,7 +133,7 @@ function App() {
 
   const deleteDigit = () => {
     if (stack.length) {
-      const lastStackElement = stack.pop() as Num;
+      const lastStackElement = stack.pop() as StackElement;
       lastStackElement.value = Number(
         lastStackElement.value.toString().slice(0, -1)
       );
@@ -154,16 +154,16 @@ function App() {
   const renderHistory = (): string => {
     let res: (string | number)[] = [];
 
-    stack.forEach((el: Num, i) => {
-      switch (el.type) {
+    stack.forEach((stackElement: StackElement) => {
+      switch (stackElement.type) {
         case "number":
-          if (el.isVisible) {
-            res.push(el.value);
+          if (stackElement.isVisible) {
+            res.push(stackElement.value);
           }
           break;
         case "operand":
-          if (el.isVisible) {
-            res.push(el.value);
+          if (stackElement.isVisible) {
+            res.push(stackElement.value);
           }
           break;
 
@@ -197,6 +197,7 @@ function App() {
     const isAnOperand = ["+", "-", "÷", "x"].includes(
       lastStackRecord.value.toString()
     );
+
     if (isAnOperand) {
       lastStackRecord = {
         isPositive: true,

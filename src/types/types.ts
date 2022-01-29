@@ -24,14 +24,14 @@ export interface OperandProps {
   previousOperand: number | string;
 }
 
-export interface Num {
+export interface StackElement {
   isPositive: boolean;
   value: number | string;
   type: string;
   isVisible: boolean;
 }
 
-export type Stack = Num[];
+export type Stack = StackElement[];
 
 export interface CalcHistory {
   date: string | Date;
