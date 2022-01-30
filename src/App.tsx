@@ -164,14 +164,14 @@ function App() {
           "..",
           "."
         );
-
         return;
+
       case "number":
         if (isZeroAfterZero) {
           return;
         }
-        let newVal = lastStackRecord.value + value.toString();
 
+        let newVal = lastStackRecord.value + value.toString();
         if (newVal.toString().length > 16) {
           return;
         }
