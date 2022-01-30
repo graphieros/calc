@@ -19,13 +19,6 @@
 }
 
 .screen::before {
-  content: "";
-  position: absolute;
-  top: 5px;
-  left: 5px;
-  height: calc(100% - 10px);
-  width: calc(100% - 10px);
-  border-radius: 7px;
   background: radial-gradient(
     at top left,
     white,
@@ -33,6 +26,13 @@
     transparent,
     rgba(152, 189, 184, 0.377)
   );
+  border-radius: 7px;
+  content: "";
+  height: calc(100% - 10px);
+  left: 5px;
+  position: absolute;
+  top: 5px;
+  width: calc(100% - 10px);
 }
 
 .current-operand {

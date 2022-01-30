@@ -14,6 +14,7 @@
   --bottom-button-color: rgba(36, 8, 22, 0.664);
   --bottom-button-focus: rgba(161, 101, 131, 0.815);
   --box-shadow: 3px 5px 10px -5px rgb(255, 255, 255), -2px -2px 6px grey;
+  --current-operand: rgb(36, 93, 116);
   --del-button-bg: rgba(255, 166, 0, 0.322);
   --del-button-color: rgb(75, 75, 26);
   --del-button-focus: rgba(255, 166, 0, 0.432);
@@ -23,12 +24,11 @@
   --operand-button-bg: rgba(165, 202, 143, 0.774);
   --operand-button-color: rgb(3, 27, 3);
   --operand-button-focus: rgb(165, 202, 143);
+  --previous-operand: rgba(36, 93, 116, 0.637);
   --top-button-bg-focus: rgb(51, 83, 80);
   --top-button-bg: rgba(51, 83, 80, 0.664);
   --top-button-color: turquoise;
   --white-transparent: rgba(255, 255, 255, 0.75);
-  --previous-operand: rgba(36, 93, 116, 0.637);
-  --current-operand: rgb(36, 93, 116);
 }
 
 .digit {
@@ -38,7 +38,6 @@
 body {
   align-items: center;
   background: rgb(1, 1, 20);
-  /* background-image: linear-gradient(315deg, #c6dfc7 0%, #9f96b6 74%); */
   background-image: url(./assets/images/bg.png);
   display: flex;
   justify-content: center;
@@ -47,7 +46,6 @@ body {
 
 .calculator-grid {
   background: radial-gradient(at bottom left, white, rgb(224, 218, 200));
-  /* background-image: url(./assets/images/calc-bg.png); */
   border-radius: 10px;
   box-shadow: 0px 0px 20px black;
   display: grid;
@@ -63,13 +61,6 @@ body {
 }
 
 .calculator-grid::before {
-  content: "";
-  position: absolute;
-  top: 5px;
-  left: 5px;
-  height: calc(100% - 10px);
-  width: calc(100% - 10px);
-  border-radius: 7px;
   background: radial-gradient(
     at top right,
     white,
@@ -78,7 +69,14 @@ body {
     transparent,
     white
   );
+  border-radius: 7px;
   box-shadow: -1px -1px 5px rgb(85, 85, 85);
+  content: "";
+  height: calc(100% - 10px);
+  left: 5px;
+  position: absolute;
+  top: 5px;
+  width: calc(100% - 10px);
 }
 
 .span-two {
@@ -86,11 +84,11 @@ body {
 }
 
 .output {
+  align-items: flex-end;
+  border-radius: 10px;
   background: rgba(175, 210, 221, 0.329);
   box-shadow: 0px 5px 10px -5px inset grey,
     -2px -2px 6px rgba(255, 255, 255, 0.459);
-  align-items: flex-end;
-  border-radius: 10px;
   display: flex;
   flex-direction: column;
   font-family: digits;
@@ -112,28 +110,26 @@ body {
 }
 
 .main-wrapper {
-  display: flex;
   align-items: center;
-  justify-content: center;
+  display: flex;
   flex-direction: row;
-  width: 100vw;
   height: 100vh;
-
-  /* grid-template-columns: repeat(2, 1fr); */
+  justify-content: center;
+  width: 100vw;
 }
 
 .theme-selector-wrapper {
-  position: absolute;
   bottom: 5px;
   left: 37px;
+  position: absolute;
 }
 
 .theme-selector {
+  color: grey;
+  font-family: digits;
+  margin-left: 10px;
   margin: 3px;
   padding: 3px;
-  margin-left: 10px;
-  font-family: digits;
-  color: grey;
 }
 
 select {
@@ -141,8 +137,8 @@ select {
 }
 
 label {
-  font-family: digits;
   color: grey;
+  font-family: digits;
 }
 
 @media (max-width: 600px) {
@@ -151,7 +147,7 @@ label {
     height: 100%;
   }
   .calculator-grid {
-    zoom: 80%;
     margin-top: 50px;
+    zoom: 80%;
   }
 }

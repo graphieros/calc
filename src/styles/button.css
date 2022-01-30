@@ -14,7 +14,6 @@
   padding: 10px;
   position: relative;
   transition: all 0.15s ease-in-out;
-  /* text-shadow: 0px 1px white; */
 }
 
 .calc-button:hover,
@@ -97,34 +96,34 @@
 .top::after,
 .L::after,
 .bottom::after {
-  content: "";
-  position: absolute;
-  height: calc(100% - 10px);
-  width: calc(100% - 10px);
-  top: 5px;
-  left: 5px;
   background: radial-gradient(
     at top left,
     rgba(128, 128, 128, 0.301),
     rgba(255, 255, 255, 0.247)
   );
   border-radius: 6px;
+  content: "";
+  height: calc(100% - 10px);
+  left: 5px;
+  position: absolute;
+  top: 5px;
+  width: calc(100% - 10px);
 }
 
 .rounded.default::after,
 .rounded.blue::after {
-  content: "";
-  position: absolute;
-  top: 6px;
-  left: 6px;
-  height: calc(100% - 12px);
-  width: calc(100% - 12px);
   background: radial-gradient(
     at top left,
     rgba(128, 128, 128, 0.301),
     rgba(255, 255, 255, 0.247)
   );
   border-radius: 30px;
+  content: "";
+  height: calc(100% - 12px);
+  left: 6px;
+  position: absolute;
+  top: 6px;
+  width: calc(100% - 12px);
 }
 
 .rounded.default:hover,
